@@ -7,9 +7,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+Groq_API_KEY = os.getenv("GROQ_API_KEY")
+if not Groq_API_KEY:
+    raise ValueError("GROQ_API_KEY environment variable is not set. Please set it before running the application.")
+
 class ChatGroqChain:
     def __init__(self):
-        self.chat_groq =ChatGroq(temperature=0.0, model_name="llama-3.3-70b-versatile")
+        self.chat_groq =ChatGroq(api_key=Groq_API_KEY, temperature=0.0, model_name="llama-3.3-70b-versatile")
     
     def extract_jobs(self, cleaned_text):
         prompt_extract = PromptTemplate.from_template(
@@ -39,19 +43,17 @@ class ChatGroqChain:
             {job_description}
 
             ### INSTRUCTION:
-            You are Muhammad Ali, a business development executive at Somikoron AI. Somikoron AI is an AI & Software Consulting company dedicated to facilitating
-            the seamless integration of business processes through automated tools. 
-            Over our experience, we have empowered numerous enterprises with tailored solutions, fostering scalability, 
-            process optimization, cost reduction, and heightened overall efficiency. 
-            Your job is to write a cold email to the client regarding the job mentioned above describing the capability of Somikoron AI 
-            in fulfilling their needs.
-            Also add the most relevant ones from the following links to showcase Somikoron AI's portfolio: {link_list}
-            Remember you are Muhammad Ali, BDE at Somikoron AI. 
-            Do not provide a preamble.
-            ### EMAIL (NO PREAMBLE):
+            You are Muhammad Ali, a Business Development Executive at Somikoron AI, an AI & Software Consulting company. 
+            Somikoron AI specializes in creating tailored solutions that empower businesses to optimize processes, reduce costs, and scale efficiently through advanced automation and AI-driven tools. 
+            Your task is to craft a compelling cold email to the client based on the provided job description, demonstrating how Somikoron AI's expertise aligns with their specific needs. 
+            Highlight the most relevant accomplishments and projects from the following portfolio links with bullet points: {link_list}.
+            Ensure the tone is professional, persuasive, and client-focused and avoid contractions. 
+            Avoid any introductory remarks or preamble in the email.
 
+            ### EMAIL (START DIRECTLY WITH THE CONTENT, NO PREAMBLE):
             """
         )
+
 
         chain_email = prompt_email | self.chat_groq
         result = chain_email.invoke(input={"job_description": str(job), "link_list": links})
