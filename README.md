@@ -63,9 +63,3 @@ streamlit run app.py
 - Ensure your Groq API key is valid and has sufficient quota.
 - The app is designed for English-language job postings.
 - For best results, keep your portfolio CSV up to date and relevant.
-
-## License
-MIT License
-
-## Author
-Muhammad Ali (Somikoron AI)
