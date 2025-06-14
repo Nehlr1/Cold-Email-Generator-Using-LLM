@@ -13,7 +13,7 @@ Cold Email Generator is a Streamlit web application that generates personalized 
 
 ### 1. Clone the Repository
 ```
-git clone <https://github.com/Nehlr1/Cold-Email-Generator-Using-LLM
+git clone https://github.com/Nehlr1/Cold-Email-Generator-Using-LLM
 cd streamlit_app
 ```
 
